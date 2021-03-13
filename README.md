@@ -1,6 +1,6 @@
 # CodeFirstDB
 
-Creación de la Base de Datos con Entity Framework Core
+Creación de la Base de Datos con Entity Framework Core Code First
 
 ## Cómo crearla
 
