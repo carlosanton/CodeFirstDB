@@ -24,6 +24,19 @@ namespace CodeFirstDB
         public virtual DbSet<AlumnoInsignia> AlumnoInsignia { get; set; }
         public virtual DbSet<Categoria> Categoria { get; set; }
         public virtual DbSet<Curso> Curso { get; set; }
+        public virtual DbSet<EntidadDocente> EntidadDocente { get; set; }
+        public virtual DbSet<Gestor> Gestor { get; set; }
+        public virtual DbSet<Foro> Foro { get; set; }
+        public virtual DbSet<Subforo> Subforo { get; set; }
+        public virtual DbSet<Hilo> Hilo { get; set; }
+        public virtual DbSet<Entrada> Entrada { get; set; }
+        public virtual DbSet<Profesor> Profesor { get; set; }
+        public virtual DbSet<Tutoria> Tutoria { get; set; }
+        public virtual DbSet<Temario> Temario { get; set; }
+        public virtual DbSet<Actividad> Actividad { get; set; }
+        public virtual DbSet<Nota> Nota { get; set; }
+        public virtual DbSet<Matricula> Matricula { get; set; }
+        public virtual DbSet<Anuncio> Anuncio { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

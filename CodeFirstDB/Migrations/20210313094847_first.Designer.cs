@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodeFirstDB.Migrations
 {
     [DbContext(typeof(MoocContext))]
-    [Migration("20210313091910_Inicial")]
-    partial class Inicial
+    [Migration("20210313094847_first")]
+    partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -56,6 +56,89 @@ namespace CodeFirstDB.Migrations
                     b.HasIndex("idInsignia");
 
                     b.ToTable("AlumnoInsignia");
+                });
+
+            modelBuilder.Entity("CodeFirstDB.Models.Categoria", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("descripcion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("imagen")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("nombre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Categoria");
+                });
+
+            modelBuilder.Entity("CodeFirstDB.Models.Curso", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("anyoAcademico")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("conocimientoPrevio")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("descripcion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("dificultad")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("esActivo")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("fechaFin")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("fechaInicio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("idCategoria")
+                        .HasColumnType("int");
+
+                    b.Property<int>("idGestor")
+                        .HasColumnType("int");
+
+                    b.Property<string>("imagen")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("nombre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("video")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("idCategoria");
+
+                    b.HasIndex("idGestor");
+
+                    b.ToTable("Curso");
+                });
+
+            modelBuilder.Entity("CodeFirstDB.Models.Gestor", b =>
+                {
+                    b.Property<int>("idUsuario")
+                        .HasColumnType("int");
+
+                    b.HasKey("idUsuario");
+
+                    b.ToTable("Gestor");
                 });
 
             modelBuilder.Entity("CodeFirstDB.Models.Idioma", b =>
@@ -217,6 +300,36 @@ namespace CodeFirstDB.Migrations
                     b.Navigation("alumno");
 
                     b.Navigation("insignia");
+                });
+
+            modelBuilder.Entity("CodeFirstDB.Models.Curso", b =>
+                {
+                    b.HasOne("CodeFirstDB.Models.Categoria", "categoria")
+                        .WithMany()
+                        .HasForeignKey("idCategoria")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CodeFirstDB.Models.Gestor", "gestor")
+                        .WithMany()
+                        .HasForeignKey("idGestor")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("categoria");
+
+                    b.Navigation("gestor");
+                });
+
+            modelBuilder.Entity("CodeFirstDB.Models.Gestor", b =>
+                {
+                    b.HasOne("CodeFirstDB.Models.Usuario", "usuario")
+                        .WithMany()
+                        .HasForeignKey("idUsuario")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("usuario");
                 });
 
             modelBuilder.Entity("CodeFirstDB.Models.PaisIdioma", b =>

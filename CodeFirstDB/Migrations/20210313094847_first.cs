@@ -3,10 +3,25 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CodeFirstDB.Migrations
 {
-    public partial class Inicial : Migration
+    public partial class first : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Categoria",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    imagen = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categoria", x => x.id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Idioma",
                 columns: table => new
@@ -129,6 +144,23 @@ namespace CodeFirstDB.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Gestor",
+                columns: table => new
+                {
+                    idUsuario = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Gestor", x => x.idUsuario);
+                    table.ForeignKey(
+                        name: "FK_Gestor_Usuario_idUsuario",
+                        column: x => x.idUsuario,
+                        principalTable: "Usuario",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AlumnoInsignia",
                 columns: table => new
                 {
@@ -152,10 +184,56 @@ namespace CodeFirstDB.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Curso",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    fechaInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    fechaFin = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    imagen = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    video = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    dificultad = table.Column<int>(type: "int", nullable: false),
+                    conocimientoPrevio = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    anyoAcademico = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    esActivo = table.Column<bool>(type: "bit", nullable: false),
+                    idGestor = table.Column<int>(type: "int", nullable: false),
+                    idCategoria = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Curso", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_Curso_Categoria_idCategoria",
+                        column: x => x.idCategoria,
+                        principalTable: "Categoria",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Curso_Gestor_idGestor",
+                        column: x => x.idGestor,
+                        principalTable: "Gestor",
+                        principalColumn: "idUsuario",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AlumnoInsignia_idInsignia",
                 table: "AlumnoInsignia",
                 column: "idInsignia");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Curso_idCategoria",
+                table: "Curso",
+                column: "idCategoria");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Curso_idGestor",
+                table: "Curso",
+                column: "idGestor");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PaisIdioma_idIdioma",
@@ -174,6 +252,9 @@ namespace CodeFirstDB.Migrations
                 name: "AlumnoInsignia");
 
             migrationBuilder.DropTable(
+                name: "Curso");
+
+            migrationBuilder.DropTable(
                 name: "PaisIdioma");
 
             migrationBuilder.DropTable(
@@ -181,6 +262,12 @@ namespace CodeFirstDB.Migrations
 
             migrationBuilder.DropTable(
                 name: "Insignia");
+
+            migrationBuilder.DropTable(
+                name: "Categoria");
+
+            migrationBuilder.DropTable(
+                name: "Gestor");
 
             migrationBuilder.DropTable(
                 name: "Idioma");
